@@ -12,7 +12,7 @@ public class MainActivityViewModel {
     public void initRecyclerView(RecyclerView recyclerView, Context context){
 
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        Adapter adapter =  new Adapter();
+        Adapter adapter =  new Adapter(context);
         recyclerView.setAdapter(adapter);
 
         testRecyclerView(adapter);

@@ -1,5 +1,7 @@
 package com.example.gooddeals;
 
+import android.app.Activity;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -16,6 +18,7 @@ import java.util.List;
 public class Adapter extends RecyclerView.Adapter<Adapter.AdapterViewHolder> {
 
     private List<Deal> dealList = new ArrayList<>();
+    Context context;
 
     public void setItems(Collection<Deal> deals){
         dealList.addAll(deals);
@@ -27,6 +30,10 @@ public class Adapter extends RecyclerView.Adapter<Adapter.AdapterViewHolder> {
         notifyDataSetChanged();
     }
 
+    Adapter(Context context){
+        this.context = context;
+    }
+
     @NonNull
     @Override
     public AdapterViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
@@ -35,14 +42,18 @@ public class Adapter extends RecyclerView.Adapter<Adapter.AdapterViewHolder> {
                 .inflate(R.layout.deal, viewGroup, false);
 
         /////
-        view.setOnClickListener(new View.OnClickListener() {
+        /*view.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
                 // Your action here
 
+                showDialogPopup(view);
+
             }
-        });
+        });*/
         /////
+        //int k = i;
 
         return new AdapterViewHolder(view);
     }
@@ -57,13 +68,26 @@ public class Adapter extends RecyclerView.Adapter<Adapter.AdapterViewHolder> {
         return dealList.size();
     }
 
+    public void showDialogPopup(Deal deal){
+
+        String tag = "dialog_popup";
+        FragmentDialogPopup fragmentDialogPopup = new FragmentDialogPopup();
+        fragmentDialogPopup.setDeal(deal);
+        FragmentManager manager = ((Activity) context).getFragmentManager();
+        fragmentDialogPopup.show(manager, tag);
+
+    }
 
     public class AdapterViewHolder extends RecyclerView.ViewHolder {
 
         private TextView carma;
         private TextView header;
 
+        private Deal deal;
+
         public void bind(Deal deal){
+
+            this.deal = deal;
 
             header.setText(deal.getHeader());
         }
@@ -71,6 +95,17 @@ public class Adapter extends RecyclerView.Adapter<Adapter.AdapterViewHolder> {
         public AdapterViewHolder(View itemView){
 
             super(itemView);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    // Your action here
+
+                    showDialogPopup(deal);
+
+                }
+            });
 
             header = (TextView) itemView.findViewById(R.id.header);
 
