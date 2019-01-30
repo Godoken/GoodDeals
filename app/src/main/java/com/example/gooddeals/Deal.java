@@ -6,6 +6,12 @@ public class Deal {
     private String text;
     private int coast;
 
+    public Deal(String header, String text, int coast){
+        this.header = header;
+        this.text = text;
+        this.coast = coast;
+    }
+
     public int getCoast() {
         return coast;
     }
