@@ -16,9 +16,10 @@ public class MainActivity extends AppCompatActivity {
 
 
     RecyclerView recyclerView;
-    Adapter adapter;
+    //Adapter adapter;
     private TextView carma;
     private TextView header;
+    MainActivityViewModel mainActivityViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,40 +29,12 @@ public class MainActivity extends AppCompatActivity {
         carma = findViewById(R.id.textView);
         header = findViewById(R.id.header);
 
-        initRecyclerView();
-
-        //TEST
-        Deal deal = new Deal("Test", "test1", 11);
-        Deal deal1 = new Deal("YYYYYYYYYYYYYYYYYYYYYY", "yy", 12);
-        Collection<Deal> collection = new ArrayList<Deal>();
-        collection.add(deal);
-        collection.add(deal1);
-        adapter.setItems(collection);
-        //TEST END
-    }
-
-
-    public void initRecyclerView(){
-
         recyclerView = (RecyclerView) findViewById(R.id.recycle_view);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter =  new Adapter();
-        recyclerView.setAdapter(adapter);
-        /*recyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
-            @Override
-            public boolean onInterceptTouchEvent(@NonNull RecyclerView recyclerView, @NonNull MotionEvent motionEvent) {
-                return true;
-            }
 
-            @Override
-            public void onTouchEvent(@NonNull RecyclerView recyclerView, @NonNull MotionEvent motionEvent) {
-                Toast.makeText(getApplicationContext(), "Test", Toast.LENGTH_LONG).show();
-            }
+        mainActivityViewModel = new MainActivityViewModel();
 
-            @Override
-            public void onRequestDisallowInterceptTouchEvent(boolean b) {
+        mainActivityViewModel.initRecyclerView(recyclerView, MainActivity.this);
 
-            }
-        });*/
+
     }
 }
