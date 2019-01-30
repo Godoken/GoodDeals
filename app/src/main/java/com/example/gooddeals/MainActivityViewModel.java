@@ -1,6 +1,7 @@
 package com.example.gooddeals;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
@@ -17,6 +18,12 @@ public class MainActivityViewModel {
 
         testRecyclerView(adapter);
 
+    }
+
+    public void startAddDealActivity(Context context){
+
+        Intent intent = new Intent(context, AddDealActivity.class);
+        context.startActivity(intent);
     }
 
     public void testRecyclerView(Adapter adapter){
