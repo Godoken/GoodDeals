@@ -2,37 +2,67 @@ package com.example.gooddeals;
 
 public class Deal {
 
-    private String header;
-    private String text;
-    private int coast;
+    private String id;
+    private String title;
+    private String discription;
+    private String author;
+    private Boolean isAvailable;
+    private int cost;
 
-    public Deal(String header, String text, int coast){
-        this.header = header;
-        this.text = text;
-        this.coast = coast;
+    public Deal(String header, String text, int coast, String author, Boolean isAvailable, String id){
+        this.title = header;
+        this.discription = text;
+        this.cost = coast;
+        this.author = author;
+        this.isAvailable = isAvailable;
+        this.id = id;
     }
 
-    public int getCoast() {
-        return coast;
+    public int getCost() {
+        return cost;
     }
 
-    public void setCoast(int coast) {
-        this.coast = coast;
+    public void setCost(int coast) {
+        this.cost = coast;
     }
 
-    public String getHeader(){
-        return header;
+    public String getTitle(){
+        return title;
     }
 
-    public void setHeader(String header){
-        this.header = header;
+    public void setTitle(String header){
+        this.title = header;
     }
 
-    public String getText(){
-        return text;
+    public String getDiscription(){
+        return discription;
     }
 
-    public void setText(String text){
-        this.text = text;
+    public void setDiscription(String text){
+        this.discription = text;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public Boolean isAvailable() {
+        return isAvailable;
+    }
+
+    public void setAvailable(Boolean available) {
+        isAvailable = available;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

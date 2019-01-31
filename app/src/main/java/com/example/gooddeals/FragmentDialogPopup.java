@@ -20,7 +20,7 @@ public class FragmentDialogPopup extends DialogFragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
 
-        getDialog().setTitle(deal.getHeader());
+        getDialog().setTitle(deal.getTitle());
 
         View v = inflater.inflate(R.layout.fragment_dialog_deal_information, null);
 
@@ -37,9 +37,9 @@ public class FragmentDialogPopup extends DialogFragment {
             }
         });
 
-        header.setText(deal.getHeader());
-        coast.setText(String.valueOf(deal.getCoast()));
-        textView.setText(deal.getText());
+        header.setText(deal.getTitle());
+        coast.setText(String.valueOf(deal.getCost()));
+        textView.setText(deal.getDiscription());
 
 
         return v;

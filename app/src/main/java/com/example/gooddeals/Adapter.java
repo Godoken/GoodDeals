@@ -41,20 +41,6 @@ public class Adapter extends RecyclerView.Adapter<Adapter.AdapterViewHolder> {
         View view = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.deal, viewGroup, false);
 
-        /////
-        /*view.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-                // Your action here
-
-                showDialogPopup(view);
-
-            }
-        });*/
-        /////
-        //int k = i;
-
         return new AdapterViewHolder(view);
     }
 
@@ -89,7 +75,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.AdapterViewHolder> {
 
             this.deal = deal;
 
-            header.setText(deal.getHeader());
+            header.setText(deal.getTitle());
         }
 
         public AdapterViewHolder(View itemView){

@@ -4,9 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 public class MainActivityViewModel {
 
@@ -26,12 +28,27 @@ public class MainActivityViewModel {
         context.startActivity(intent);
     }
 
-    public void testRecyclerView(Adapter adapter){
-        Deal deal = new Deal("Test", "test1", 11);
-        Deal deal1 = new Deal("YYYYYYYYYYYYYYYYYYYYYY", "yy", 12);
-        Collection<Deal> collection = new ArrayList<Deal>();
-        collection.add(deal);
-        collection.add(deal1);
-        adapter.setItems(collection);
+    public void testRecyclerView(final Adapter adapter){
+
+        MainActivityModel mainActivityModel = new MainActivityModel();
+        mainActivityModel.getAllDeals(new WorkerWithServer.DealsCallback() {
+            @Override
+            public void onSuccess(Collection<Deal> dealList) {
+                adapter.setItems(dealList);
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                Log.d("WTF", "exception", throwable);
+            }
+        });
+        //Deal deal = new Deal("Test", "test1", 11);
+        //Deal deal1 = new Deal("YYYYYYYYYYYYYYYYYYYYYY", "yy", 12);
+//        Collection<Deal> dealList = mainActivityModel.getDealList();
+
+        //Collection<Deal> collection = new ArrayList<Deal>(mainActivityModel.getDealList());
+        //collection.add(deal);
+        //collection.add(deal1);
+//        adapter.setItems(dealList);
     }
 }
