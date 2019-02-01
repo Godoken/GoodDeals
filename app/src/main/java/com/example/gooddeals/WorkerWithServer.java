@@ -166,6 +166,98 @@ class WorkerWithServer  {
 
     }
 
+    public void executeDeal(final UserCallback userCallback, String id, User m_user) {
+
+        this.userCallback = userCallback;
+
+        gson = new GsonBuilder()
+                .setLenient()
+                .create();
+
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
+
+
+        retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .client(client)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
+
+        goodDealsAPI = retrofit.create(GoodDealsAPI.class);
+
+        Call<User> call = goodDealsAPI.executeDeal(id, m_user);
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+
+                if(response.isSuccessful()) {
+                    User user = response.body();
+                    userCallback.onSuccess(user);
+                } else {
+                    userCallback.onFailure(new RuntimeException());
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                userCallback.onFailure(t);
+                t.printStackTrace();
+
+            }
+        });
+
+    }
+
+    public void deleteDeal(final DealCallback dealCallback, String id) {
+
+        this.dealCallback = dealCallback;
+
+        gson = new GsonBuilder()
+                .setLenient()
+                .create();
+
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
+
+
+        retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .client(client)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
+
+        goodDealsAPI = retrofit.create(GoodDealsAPI.class);
+
+        Call<Deal> call = goodDealsAPI.deleteDeal(id);
+        call.enqueue(new Callback<Deal>() {
+            @Override
+            public void onResponse(Call<Deal> call, Response<Deal> response) {
+
+                if(response.isSuccessful()) {
+                    Deal deal = response.body();
+                    dealCallback.onSuccess(deal);
+                } else {
+                    dealCallback.onFailure(new RuntimeException());
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<Deal> call, Throwable t) {
+                dealCallback.onFailure(t);
+                t.printStackTrace();
+
+            }
+
+
+        });
+
+    }
+
     public interface DealsCallback{
         void onSuccess(Collection<Deal> dealList);
         void onFailure(Throwable throwable);

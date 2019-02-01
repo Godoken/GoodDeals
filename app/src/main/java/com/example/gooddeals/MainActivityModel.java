@@ -24,6 +24,20 @@ public class MainActivityModel {
 
     }
 
+    public void executeDeal(String id, User m_user, WorkerWithServer.UserCallback userCallback) {
+
+        final WorkerWithServer workerWithServer = new WorkerWithServer();
+
+        workerWithServer.executeDeal(userCallback, id, m_user);
+    }
+
+    public void deleteDeal(WorkerWithServer.DealCallback dealCallback, String id) {
+
+        final WorkerWithServer workerWithServer = new WorkerWithServer();
+
+        workerWithServer.deleteDeal(dealCallback, id);
+    }
+
 //    public Collection<Deal> getDealList(){
 //
 //        return this.dealList;
