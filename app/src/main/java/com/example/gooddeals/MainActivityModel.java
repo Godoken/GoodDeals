@@ -14,10 +14,14 @@ public class MainActivityModel {
 
         workerWithServer.start(callback);
 
-//        dealList = workerWithServer.getDealList();
+    }
 
+    public void loginUser(WorkerWithServer.UserCallback callback, UserInfo userInfo){
 
-        //return workerWithServer.getDealList();
+        final WorkerWithServer workerWithServer = new WorkerWithServer();
+
+        workerWithServer.loginUser(callback, userInfo);
+
     }
 
 //    public Collection<Deal> getDealList(){

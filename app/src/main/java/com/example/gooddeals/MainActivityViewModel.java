@@ -1,10 +1,13 @@
 package com.example.gooddeals;
 
+import android.app.Activity;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -21,6 +24,7 @@ public class MainActivityViewModel {
         testRecyclerView(adapter);
 
     }
+
 
     public void startAddDealActivity(Context context){
 
@@ -42,13 +46,15 @@ public class MainActivityViewModel {
                 Log.d("WTF", "exception", throwable);
             }
         });
-        //Deal deal = new Deal("Test", "test1", 11);
-        //Deal deal1 = new Deal("YYYYYYYYYYYYYYYYYYYYYY", "yy", 12);
-//        Collection<Deal> dealList = mainActivityModel.getDealList();
+    }
 
-        //Collection<Deal> collection = new ArrayList<Deal>(mainActivityModel.getDealList());
-        //collection.add(deal);
-        //collection.add(deal1);
-//        adapter.setItems(dealList);
+    public void showDialogLogin(Context context, TextView karma){
+
+        String tag = "dialog_login";
+        FragmentDialogLogin fragmentDialogLogin = new FragmentDialogLogin();
+        fragmentDialogLogin.setKarma(karma);
+        FragmentManager manager = ((Activity) context).getFragmentManager();
+        fragmentDialogLogin.show(manager, tag);
+
     }
 }

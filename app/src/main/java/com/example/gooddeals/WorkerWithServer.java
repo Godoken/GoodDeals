@@ -13,9 +13,10 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.Body;
 
 
-class WorkerWithServer implements Callback<Collection<Deal>> {
+class WorkerWithServer  {
 
     Gson gson;
     Retrofit retrofit;
@@ -23,10 +24,11 @@ class WorkerWithServer implements Callback<Collection<Deal>> {
     Collection<Deal> dealList;
 
     private DealsCallback callback;
+    private UserCallback userCallback;
 
     final String BASE_URL = "http://192.168.43.220:8081/api/";
 
-    public void start(DealsCallback callback){
+    public void start(final DealsCallback callback){
 
         this.callback = callback;
 
@@ -48,44 +50,94 @@ class WorkerWithServer implements Callback<Collection<Deal>> {
         goodDealsAPI = retrofit.create(GoodDealsAPI.class);
 
         Call<Collection<Deal>> call = goodDealsAPI.getAllDeals();
-        call.enqueue(this);
+        call.enqueue(new Callback<Collection<Deal>>() {
+            @Override
+            public void onResponse(Call<Collection<Deal>> call, Response<Collection<Deal>> response) {
+
+                //int k = 0;
+                //String s = "";
+
+                if(response.isSuccessful()) {
+                    Collection<Deal> dealList = response.body();
+                    callback.onSuccess(dealList);
+                } else {
+                    callback.onFailure(new RuntimeException());
+                    //k = response.code();
+                    //s = response.message();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<Collection<Deal>> call, Throwable t) {
+                callback.onFailure(t);
+                t.printStackTrace();
+
+            }
+        });
 
     }
 
-    @Override
-    public void onResponse(Call<Collection<Deal>> call, Response<Collection<Deal>> response) {
+    //public void setDealList(Collection<Deal> dealList){
+        //this.dealList = dealList;
+    //}
 
-        //int k = 0;
-        //String s = "";
+    //public Collection<Deal> getDealList(){
+        //return this.dealList;
+    //}
 
-        if(response.isSuccessful()) {
-            Collection<Deal> dealList = response.body();
-            callback.onSuccess(dealList);
-        } else {
-            callback.onFailure(new RuntimeException());
-            //k = response.code();
-            //s = response.message();
-        }
+    public void loginUser(WorkerWithServer.UserCallback callback, UserInfo userInfo) {
 
-    }
+        this.userCallback = callback;
 
-    @Override
-    public void onFailure(Call<Collection<Deal>> call, Throwable t) {
-        callback.onFailure(t);
-        t.printStackTrace();
+        gson = new GsonBuilder()
+                .setLenient()
+                .create();
 
-    }
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
 
-    public void setDealList(Collection<Deal> dealList){
-        this.dealList = dealList;
-    }
 
-    public Collection<Deal> getDealList(){
-        return this.dealList;
+        retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .client(client)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
+
+        goodDealsAPI = retrofit.create(GoodDealsAPI.class);
+
+        Call<User> call = goodDealsAPI.login(userInfo);
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+
+                if(response.isSuccessful()) {
+                    User user = response.body();
+                    userCallback.onSuccess(user);
+                } else {
+                    userCallback.onFailure(new RuntimeException());
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                userCallback.onFailure(t);
+                t.printStackTrace();
+
+            }
+        });
+
+
     }
 
     public interface DealsCallback{
         void onSuccess(Collection<Deal> dealList);
+        void onFailure(Throwable throwable);
+    }
+    public interface UserCallback{
+        void onSuccess(User user);
         void onFailure(Throwable throwable);
     }
 }

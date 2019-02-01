@@ -32,6 +32,14 @@ public class MainActivity extends AppCompatActivity {
         carma = findViewById(R.id.textView);
         header = findViewById(R.id.header);
         button = findViewById(R.id.button);
+
+        mainActivityViewModel = new MainActivityViewModel();
+
+        mainActivityViewModel.showDialogLogin(MainActivity.this, carma);
+
+        carma = findViewById(R.id.textView);
+        header = findViewById(R.id.header);
+        button = findViewById(R.id.button);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -41,8 +49,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         recyclerView = (RecyclerView) findViewById(R.id.recycle_view);
-
-        mainActivityViewModel = new MainActivityViewModel();
 
         mainActivityViewModel.initRecyclerView(recyclerView, MainActivity.this);
 
