@@ -22,7 +22,10 @@ public class FragmentDialogLogin extends DialogFragment {
 
     TextView karma;
 
+    static User m_user;
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+
 
         //getDialog().setTitle(deal.getTitle());
 
@@ -46,7 +49,7 @@ public class FragmentDialogLogin extends DialogFragment {
                     @Override
                     public void onSuccess(User user) {
                         karma.setText(String.valueOf(user.getKarma()));
-
+                        m_user = user;
                     }
 
                     @Override
@@ -82,5 +85,13 @@ public class FragmentDialogLogin extends DialogFragment {
 
     public void setKarma(TextView karma) {
         this.karma = karma;
+    }
+
+    public User getUser() {
+        return m_user;
+    }
+
+    public void setUser(User user) {
+        this.m_user = user;
     }
 }

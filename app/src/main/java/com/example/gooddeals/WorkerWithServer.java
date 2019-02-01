@@ -25,6 +25,7 @@ class WorkerWithServer  {
 
     private DealsCallback callback;
     private UserCallback userCallback;
+    private DealCallback dealCallback;
 
     final String BASE_URL = "http://192.168.43.220:8081/api/";
 
@@ -54,16 +55,11 @@ class WorkerWithServer  {
             @Override
             public void onResponse(Call<Collection<Deal>> call, Response<Collection<Deal>> response) {
 
-                //int k = 0;
-                //String s = "";
-
                 if(response.isSuccessful()) {
                     Collection<Deal> dealList = response.body();
                     callback.onSuccess(dealList);
                 } else {
                     callback.onFailure(new RuntimeException());
-                    //k = response.code();
-                    //s = response.message();
                 }
 
             }
@@ -77,14 +73,6 @@ class WorkerWithServer  {
         });
 
     }
-
-    //public void setDealList(Collection<Deal> dealList){
-        //this.dealList = dealList;
-    //}
-
-    //public Collection<Deal> getDealList(){
-        //return this.dealList;
-    //}
 
     public void loginUser(WorkerWithServer.UserCallback callback, UserInfo userInfo) {
 
@@ -132,12 +120,62 @@ class WorkerWithServer  {
 
     }
 
+    public void addDeal(WorkerWithServer.DealCallback callback, Deal deal) {
+
+        this.dealCallback = callback;
+
+        gson = new GsonBuilder()
+                .setLenient()
+                .create();
+
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
+
+
+        retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .client(client)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
+
+        goodDealsAPI = retrofit.create(GoodDealsAPI.class);
+
+        Call<Deal> call = goodDealsAPI.createDeal(deal);
+        call.enqueue(new Callback<Deal>() {
+            @Override
+            public void onResponse(Call<Deal> call, Response<Deal> response) {
+
+                if(response.isSuccessful()) {
+                    Deal deal = response.body();
+                    dealCallback.onSuccess(deal);
+                } else {
+                    dealCallback.onFailure(new RuntimeException());
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<Deal> call, Throwable t) {
+                dealCallback.onFailure(t);
+                t.printStackTrace();
+
+            }
+        });
+
+
+    }
+
     public interface DealsCallback{
         void onSuccess(Collection<Deal> dealList);
         void onFailure(Throwable throwable);
     }
     public interface UserCallback{
         void onSuccess(User user);
+        void onFailure(Throwable throwable);
+    }
+    public interface DealCallback{
+        void onSuccess(Deal deal);
         void onFailure(Throwable throwable);
     }
 }

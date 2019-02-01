@@ -31,6 +31,10 @@ public class AddDealActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                AddDealActivityViewModel addDealActivityViewModel = new AddDealActivityViewModel();
+                String author = FragmentDialogLogin.m_user.getName().concat(FragmentDialogLogin.m_user.getSurname());
+                Deal deal = new Deal(add_header.getText().toString(), add_text.getText().toString(), Integer.parseInt(add_coast.getText().toString()), author, false, " ");
+                addDealActivityViewModel.addDeal(deal);
             }
         });
     }

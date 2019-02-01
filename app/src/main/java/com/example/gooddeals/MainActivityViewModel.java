@@ -15,8 +15,11 @@ import java.util.List;
 
 public class MainActivityViewModel {
 
+    static Context m_context;
+
     public void initRecyclerView(RecyclerView recyclerView, Context context){
 
+        m_context = context;
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         Adapter adapter =  new Adapter(context);
         recyclerView.setAdapter(adapter);

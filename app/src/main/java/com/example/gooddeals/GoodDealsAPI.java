@@ -17,8 +17,12 @@ public interface GoodDealsAPI {
     Call<Collection<Deal>> getAllDeals();
 
     //@GET("v001/deals/login")
-    @HTTP(method = "GET", path = "v001/deals/login", hasBody = true)
+    @HTTP(method = "GET", path = "v001/deals/login/", hasBody = true)
     Call<User> login(@Body UserInfo userInfo);
+
+    //@POST("v001/deals/")
+    @HTTP(method = "POST", path = "v001/deals/", hasBody = true)
+    Call<Deal> createDeal(@Body Deal deal);
 
 
 }

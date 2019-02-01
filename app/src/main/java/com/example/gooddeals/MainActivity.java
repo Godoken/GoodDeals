@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     private Button button;
     MainActivityViewModel mainActivityViewModel;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,7 +36,9 @@ public class MainActivity extends AppCompatActivity {
 
         mainActivityViewModel = new MainActivityViewModel();
 
-        mainActivityViewModel.showDialogLogin(MainActivity.this, carma);
+        if (FragmentDialogLogin.m_user == null){
+            mainActivityViewModel.showDialogLogin(MainActivity.this, carma);
+        }
 
         carma = findViewById(R.id.textView);
         header = findViewById(R.id.header);

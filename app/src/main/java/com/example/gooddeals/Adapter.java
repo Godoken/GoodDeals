@@ -25,6 +25,11 @@ public class Adapter extends RecyclerView.Adapter<Adapter.AdapterViewHolder> {
         notifyDataSetChanged();
     }
 
+    public void setItem(Deal deal){
+        dealList.add(deal);
+        notifyDataSetChanged();
+    }
+
     public void clearItems(){
         dealList.clear();
         notifyDataSetChanged();
