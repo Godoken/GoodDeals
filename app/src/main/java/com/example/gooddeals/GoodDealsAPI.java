@@ -9,6 +9,7 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.HTTP;
 import retrofit2.http.Header;
+import retrofit2.http.Path;
 
 public interface GoodDealsAPI {
 
@@ -25,9 +26,9 @@ public interface GoodDealsAPI {
 
     //@GET("v001/deals/execute/{id}/")
     @HTTP(method = "GET", path = "v001/deals/execute/{id}/", hasBody = true)
-    Call<User> executeDeal(String id, User m_user);
+    Call<User> executeDeal(@Path("{id}") String id, @Body User m_user);
 
     //@DELETE("v001/deals/{id}/")
     @HTTP(method = "DELETE", path = "v001/deals/{id}/", hasBody = true)
-    Call<Deal> deleteDeal(String id);
+    Call<Deal> deleteDeal(@Path("{id}") String id);
 }
