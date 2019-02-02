@@ -187,7 +187,7 @@ class WorkerWithServer  {
 
         goodDealsAPI = retrofit.create(GoodDealsAPI.class);
 
-        Call<User> call = goodDealsAPI.executeDeal(id, m_user);
+        Call<User> call = goodDealsAPI.executeDeal(id, FragmentDialogLogin.m_user);
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {

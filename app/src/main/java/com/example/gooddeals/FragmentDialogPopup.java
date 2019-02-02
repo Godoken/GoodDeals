@@ -48,6 +48,8 @@ public class FragmentDialogPopup extends DialogFragment {
                         mainActivityModel.deleteDeal(new WorkerWithServer.DealCallback() {
                             @Override
                             public void onSuccess(Deal deal) {
+
+
                             }
 
                             @Override
@@ -74,6 +76,8 @@ public class FragmentDialogPopup extends DialogFragment {
 
                     @Override
                     public void onFailure(Throwable throwable) {
+
+                        //////////////
 
                     }
                 });

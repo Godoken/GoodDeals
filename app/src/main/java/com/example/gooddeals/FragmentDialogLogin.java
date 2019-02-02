@@ -49,7 +49,7 @@ public class FragmentDialogLogin extends DialogFragment {
                     @Override
                     public void onSuccess(User user) {
                         karma.setText(String.valueOf(user.getKarma()));
-                        m_user = user;
+                        FragmentDialogLogin.m_user = user;
                     }
 
                     @Override
