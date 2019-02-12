@@ -16,19 +16,19 @@ public class MainActivityModel {
 
     }
 
-    public void loginUser(WorkerWithServer.UserCallback callback, UserInfo userInfo){
+    public void loginUser(WorkerWithServer.UserCallback userCallback, UserInfo userInfo){
 
         final WorkerWithServer workerWithServer = new WorkerWithServer();
 
-        workerWithServer.loginUser(callback, userInfo);
+        workerWithServer.loginUser(userCallback, userInfo);
 
     }
 
-    public void executeDeal(String id, User m_user, WorkerWithServer.UserCallback userCallback) {
+    public void executeDeal(String id, User m_user, WorkerWithServer.UserCallback userCallback1) {
 
         final WorkerWithServer workerWithServer = new WorkerWithServer();
 
-        workerWithServer.executeDeal(userCallback, id, m_user);
+        workerWithServer.executeDeal(id, m_user, userCallback1);
     }
 
     public void deleteDeal(WorkerWithServer.DealCallback dealCallback, String id) {

@@ -21,13 +21,14 @@ public interface GoodDealsAPI {
     //@HTTP(method = "GET", path = "v001/deals/login/", hasBody = true)
     Call<User> login(@Body UserInfo userInfo);
 
-    //@POST("v001/deals/")
-    @HTTP(method = "POST", path = "v001/deals/", hasBody = true)
+    @POST("v001/deals/")
+    //@HTTP(method = "POST", path = "v001/deals/", hasBody = true)
     Call<Deal> createDeal(@Body Deal deal);
 
-    @POST("v001/deals/execute/{id}")
+    @POST("v001/deals/execute/{id}/")
     //@HTTP(method = "GET", path = "v001/deals/execute/{id}/", hasBody = true)
-    Call<User> executeDeal(@Path("id") String id, @Body User user);
+    Call<User> executeDeal(//@Path("id") String id,
+                           @Body User user, @Path("id") String id);
 
     //@DELETE("v001/deals/{id}/")
     @HTTP(method = "DELETE", path = "v001/deals/{id}", hasBody = true)

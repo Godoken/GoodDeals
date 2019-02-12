@@ -1,26 +1,31 @@
 package com.example.gooddeals;
 
-public class User {
+import android.provider.SyncStateContract;
+
+import java.io.Serializable;
+import java.util.UUID;
+
+public class User implements Serializable {
 
     private String name;
     private String surname;
-    private String id;
-    private int karma;
+    private String id = UUID.randomUUID().toString();
+    private int karma = 10;
 
-    public String getName() {
-        return name;
+    public User() {}
+
+    public User(String name, String surname) {
+        this.name = name;
+        this.surname = surname;
+        this.id = UUID.randomUUID().toString();
+        this.karma = 10;
     }
 
-    public void setName(String userName) {
-        this.name = userName;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String userSurname) {
-        this.surname = userSurname;
+    public User(String name, String surname, int karma) {
+        this.id = UUID.randomUUID().toString();
+        this.name = name;
+        this.surname = surname;
+        this.karma = karma;
     }
 
     public String getId() {
@@ -31,6 +36,22 @@ public class User {
         this.id = id;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
     public int getKarma() {
         return karma;
     }
@@ -38,4 +59,5 @@ public class User {
     public void setKarma(int karma) {
         this.karma = karma;
     }
+
 }

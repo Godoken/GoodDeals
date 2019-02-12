@@ -25,6 +25,7 @@ class WorkerWithServer  {
 
     private DealsCallback callback;
     private UserCallback userCallback;
+    private UserCallback userCallback1;
     private DealCallback dealCallback;
 
     final String BASE_URL = "http://192.168.43.220:8081/api/";
@@ -74,9 +75,9 @@ class WorkerWithServer  {
 
     }
 
-    public void loginUser(WorkerWithServer.UserCallback callback, UserInfo userInfo) {
+    public void loginUser(final UserCallback userCallback, UserInfo userInfo) {
 
-        this.userCallback = callback;
+        this.userCallback = userCallback;
 
         gson = new GsonBuilder()
                 .setLenient()
@@ -120,9 +121,9 @@ class WorkerWithServer  {
 
     }
 
-    public void addDeal(WorkerWithServer.DealCallback callback, Deal deal) {
+    public void addDeal(final DealCallback dealCallback, Deal deal) {
 
-        this.dealCallback = callback;
+        this.dealCallback = dealCallback;
 
         gson = new GsonBuilder()
                 .setLenient()
@@ -166,9 +167,9 @@ class WorkerWithServer  {
 
     }
 
-    public void executeDeal(final UserCallback userCallback, String id, User m_user) {
+    public void executeDeal(String id, User m_user, final UserCallback userCallback1) {
 
-        this.userCallback = userCallback;
+        this.userCallback1 = userCallback1;
 
         gson = new GsonBuilder()
                 .setLenient()
@@ -179,6 +180,7 @@ class WorkerWithServer  {
         OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
 
 
+
         retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .client(client)
@@ -187,23 +189,25 @@ class WorkerWithServer  {
 
         goodDealsAPI = retrofit.create(GoodDealsAPI.class);
 
-        Call<User> call = goodDealsAPI.executeDeal(id, FragmentDialogLogin.m_user);
+        User user = FragmentDialogLogin.m_user;
+
+        Call<User> call = goodDealsAPI.executeDeal(user, id);
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
 
                 if(response.isSuccessful()) {
                     User user = response.body();
-                    userCallback.onSuccess(user);
+                    userCallback1.onSuccess(user);
                 } else {
-                    userCallback.onFailure(new RuntimeException());
+                    userCallback1.onFailure(new RuntimeException());
                 }
 
             }
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
-                userCallback.onFailure(t);
+                userCallback1.onFailure(t);
                 t.printStackTrace();
 
             }
